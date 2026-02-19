@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <title>RoadBlock – PWA-proto</title>
+  <title>RoadBlock</title>
   
   <meta property="og:image" content="https://ymouse91.github.io/roadblock/icon192.png">
   <!-- PWA perus -->
@@ -20,7 +20,7 @@
   <link rel="icon" href="icon192.png">
   <link rel="apple-touch-icon" href="icon192.png">
 
-  <style>
+<style>
 
     :root{
       --bg:#0b1533;
@@ -32,29 +32,22 @@
       --warn:#ffd35a;
       --accent:#5b7cff;
 
-      /* JS asettaa --vh */
       --vh: 1vh;
 
-      /* safe area */
       --sat: env(safe-area-inset-top);
       --sar: env(safe-area-inset-right);
       --sab: env(safe-area-inset-bottom);
       --sal: env(safe-area-inset-left);
 
-      /* layout */
       --gap: 10px;
       --pad: 12px;
       --radius: 16px;
 
-      /* board sizing (JS) */
-      --cell: 54px;
-      --boardPad: 10px;
-      --boardOuter: 344px; /* cell*6 + boardPad*2 */
+      --cell: 59px;
+      --boardPad: 6px;
+      --boardOuter: 368px;
 
-      /* palette width on iPad landscape */
       --palW: 340px;
-
-      /* status height (no layout jump) */
       --statusH: clamp(74px, 9.5vh, 96px);
     }
 
@@ -66,17 +59,15 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       -webkit-text-size-adjust: 100%;
       overscroll-behavior: none;
-      overflow: hidden; /* EI SCROLLIA */
+      overflow: hidden;
     }
     html{ background: var(--bg); }
 
-    /* NOSELECT */
     *, *::before, *::after{
       -webkit-user-select:none;
       user-select:none;
       -webkit-touch-callout:none;
     }
-
 
     #app{
       height: calc(var(--vh) * 100);
@@ -94,9 +85,6 @@
 
     header#topbar{
       display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
       align-items:center;
       justify-content:space-between;
       gap: 10px;
@@ -149,7 +137,6 @@
     .warn{ border-color: rgba(255,211,90,.55); background: rgba(255,211,90,.14); }
     button.ghost{ background: transparent; border-color: rgba(255,255,255,.14); }
 
-    
     select#puzzleSelect{
       min-width: 160px;
       height: 40px;
@@ -168,21 +155,19 @@
       white-space: nowrap;
       max-width: 44vw;
     }
-    @media (min-width: 900px) and (orientation: landscape){
-      select#puzzleSelect{ max-width: 260px; }
-    }
-#controls.card{ padding: 10px; }
-#controls .btnbar{ width:100%; flex-wrap:nowrap; }
-#controls .btnbar button{ min-width:44px; padding: 10px 12px; }
-#controls .btnbar select{ flex:1 1 auto; min-width: 0; }
 
-.card{
+    #controls.card{ padding: 10px; }
+    #controls .btnbar{ width:100%; flex-wrap:nowrap; }
+    #controls .btnbar button{ min-width:44px; padding: 10px 12px; }
+    #controls .btnbar select{ flex:1 1 auto; min-width: 0; }
+
+    .card{
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.10);
       border-radius: var(--radius);
       padding: 12px;
       box-shadow: 0 10px 28px rgba(0,0,0,.25);
-      overflow: hidden; /* EI SCROLLIA */
+      overflow: hidden;
       min-height: 0;
     }
 
@@ -209,38 +194,11 @@
 
     #hint{ display:none; }
 
-    main{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: var(--gap);
-      align-content: stretch;
-      min-height: 0;
-      overflow: hidden;
-    }
 
-    /* iPad vaaka */
-    @media (min-width: 900px) and (orientation: landscape){
-      main{
-        grid-template-columns: 1fr var(--palW);
-        align-items: stretch;
-      }
-      #boardWrap.card, #palette.card{
-        height: calc(var(--boardOuter) + 24px); /* board + card padding */
-      }
-    }
 
-    /* ----- board ----- */
-    #boardWrap{
-      flex: 1 1 auto;
-      min-height: 0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px;
-      overflow:hidden;
-    }
 
-    #board{
+    /* ----- Board ----- */
+#board{
       position: relative;
       width: var(--boardOuter);
       height: var(--boardOuter);
@@ -257,12 +215,12 @@
     }
 
     .grid{
-   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(var(--cell) * 6);
-  height: calc(var(--cell) * 6);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(var(--cell) * 6);
+      height: calc(var(--cell) * 6);
       display:grid;
       grid-template-columns: repeat(6, 1fr);
       grid-template-rows: repeat(6, 1fr);
@@ -271,12 +229,12 @@
     }
 
     .layer{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(var(--cell) * 6);
-  height: calc(var(--cell) * 6);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(var(--cell) * 6);
+      height: calc(var(--cell) * 6);
       pointer-events:none;
     }
 
@@ -288,7 +246,6 @@
     }
     .cell:active{ outline: 2px solid rgba(91,124,255,.55); outline-offset: -2px; }
 
-
     .block{
       position:absolute;
       width: var(--cell);
@@ -296,7 +253,6 @@
       border-radius: 12px;
     }
 
-    /* talokorttelit */
     .bldg{
       background:
         linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02)),
@@ -343,7 +299,7 @@
       align-items:center;
       justify-content:center;
       font-size: calc(var(--cell) * .58);
-      transform: rotate(-45deg); /* <-- 45° kun rot 0 */
+      transform: rotate(-45deg);
       filter: drop-shadow(0 6px 6px rgba(0,0,0,.35));
     }
 
@@ -358,15 +314,14 @@
       transform-origin: 50% 50%;
     }
 
-    /* ----- palette (EI SCROLLIA) ----- */
+    /* ----- Palette ----- */
     #palette{
       flex: 0 0 auto;
-      padding: 10px;
+      padding: 6px;
       overflow:hidden;
     }
 
-    #palHeader{ display:none; /* iPhone: säästä tilaa */
-      
+    #palHeader{
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -384,21 +339,6 @@
       grid-template-columns: repeat(3, minmax(0,1fr));
       grid-auto-rows: 1fr;
       gap: 8px;
-    }
-
-    @media (max-width: 430px) and (orientation: portrait){
-      :root{
-        --gap: 8px;
-        --pad: 10px;
-        --statusH: clamp(78px, 12vh, 110px);
-      }
-      header#topbar h1{ font-size: 16px; }
-      button{ padding: 10px 10px; }
-      #pieces{
-        gap: 8px;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        grid-template-rows: repeat(2, minmax(0,1fr));
-      }
     }
 
     .pieceBtn{
@@ -441,7 +381,6 @@
       flex: 0 0 auto;
     }
 
-    /* preview: aina neliö (vakio), SVG 3x3 grid */
     .mini{
       flex: 1 1 auto;
       min-height: 0;
@@ -471,7 +410,6 @@
       overflow:hidden;
     }
 
-    /* iOS näppäimistö-fiksi */
     #kbdHack{
       position: fixed;
       left: -10000px;
@@ -480,7 +418,7 @@
       pointer-events:none;
     }
 
-    /* ---------- Modal (help) ---------- */
+    /* ---------- Modal ---------- */
     #modalBackdrop{
       position: fixed;
       inset: 0;
@@ -523,7 +461,7 @@
     }
     #modalBody{
       padding: 12px;
-      overflow: auto; /* modalin sisällä saa scrollata, ei pelin */
+      overflow: auto;
       -webkit-overflow-scrolling: touch;
       color: rgba(234,240,255,.88);
       line-height: 1.35;
@@ -536,224 +474,8 @@
       border-radius: 8px;
       border: 1px solid rgba(255,255,255,.10);
     }
-  
 
-    /* --- iPhone compact overrides (tighter controls/palette/status so everything fits) --- */
-    header#topbar{ padding: 6px 8px; }
-    header#topbar h1{ font-size: 16px; }
-    header#topbar .sub{ display:none; } /* säästä tilaa */
-
-    #controls.card{ padding: 6px; }
-    #controls .btnbar{ gap: 6px; }
-    #controls .btnbar button{
-      height: 34px;
-      min-width: 40px;
-      padding: 0 10px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1;
-    }
-    #controls .btnbar select{
-      height: 34px;
-      padding: 0 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    main{ gap: 8px; }
-
-    #boardWrap{ padding: 8px; }
-
-    /* Palette: force two short rows */
-    #palette{
-      padding: 8px;
-      max-height: clamp(110px, 22vh, 150px);
-    }
-    #pieces{ gap: 6px; }
-
-    .pieceBtn{
-      padding: 6px 4px;
-      border-radius: 12px;
-    }
-    .pieceName{ font-size: 11px; }
-    .pieceMeta{ display:none; } /* iPhone: piiloon */
-
-    /* Status compact */
-    #statusCard{ padding: 8px 10px; }
-    #msg{ font-size: 12px; }
-
-  
-
-    /* --- v3 fit fixes --- */
-    /* Status vielä matalammaksi */
-    #statusCard{ padding: 6px 10px; }
-    #status{ gap: 2px; }
-    #msg{ font-size: 12px; line-height: 1.15; }
-
-    /* Palette: näytä aina kaksi riviä (älä leikkaa) */
-    #palette{
-      overflow: visible;
-      max-height: clamp(132px, 26vh, 176px);
-    }
-    #pieces{
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      grid-template-rows: repeat(2, 1fr);
-      gap: 6px;
-    }
-    .pieceBtn{
-      min-height: 54px;
-    }
-
-    /* Board: ei saa ylittää wrapia */
-    #boardWrap{ overflow: hidden; }
-
-  
-
-    /* --- v4: status matalaksi + paletin otsikko pois + lauta mahtuu --- */
-    /* Status: ei kiinteää korkeutta, tiukempi */
-    #statusCard{
-      height: auto !important;
-      padding: 4px 10px !important;
-    }
-    #status{ gap: 1px !important; }
-    #msg{ font-size: 11px !important; line-height: 1.1 !important; }
-    #hint{ display:none !important; }
-
-    /* Palette: kiinteä korkeus jotta 2 riviä aina näkyy, ei otsikkoa */
-    #palette{
-      height: 144px;
-      max-height: 144px;
-      overflow: visible;
-      padding: 8px;
-    }
-    #pieces{
-      grid-template-rows: repeat(2, 1fr);
-      gap: 6px;
-    }
-    .pieceBtn{ min-height: 56px; }
-
-    /* BoardWrap: anna laudan mitoittaa itsensä wrapin mukaan */
-    #boardWrap{ padding: 6px; }
-
-  
-
-    /* --- v5: paletin tiivistys --- */
-
-    /* Piilota poliisi-otsikot laatoista */
-    .pieceName{ display:none !important; }
-
-    /* Tee laatasta position relative jotta check voidaan ankkuroida */
-    .pieceBtn{
-      position: relative;
-      padding: 6px;
-      min-height: 52px;
-    }
-
-    /* Siirrä check-merkki oikeaan alakulmaan */
-    .pieceBtn .check,
-    .pieceBtn .pieceCheck,
-    .pieceBtn .tick{
-      position:absolute;
-      right:4px;
-      bottom:4px;
-      font-size:14px;
-      line-height:1;
-    }
-
-  
-
-    /* --- v6: paletin viimeistely --- */
-
-    /* Poista turha kehys ja taustalaatikko */
-    .pieceBtn{
-      border: none !important;
-      background: rgba(0,0,0,.08) !important;
-      box-shadow: none !important;
-      padding: 4px !important;
-    }
-
-    /* Poista pieceTop kokonaan */
-    .pieceTop{ display:none !important; }
-
-    /* Yleinen check-merkki kun pala asetettu (sel-luokka) */
-    .pieceBtn.sel::after{
-      content: "✓";
-      position:absolute;
-      right:4px;
-      bottom:4px;
-      font-size:16px;
-      font-weight:900;
-      color:#49e2a8;
-    }
-
-    /* Estä vanhat check-elementit näkymästä väärässä paikassa */
-    .pieceBtn .check,
-    .pieceBtn .pieceCheck,
-    .pieceBtn .tick{
-      display:none !important;
-    }
-
-  
-
-    /* --- v7: check kun pala asetettu + pieceBtn pienempi --- */
-
-    /* Pienennä pieceBtn noin 4/5 */
-    .pieceBtn{
-      transform: scale(0.8);
-      transform-origin: center;
-      padding: 2px !important;
-      min-height: 42px !important;
-    }
-
-    /* Check näkyy kun pala on asetettu (placed-luokka) */
-    .pieceBtn.placed::after{
-      content: "✓";
-      position:absolute;
-      right:3px;
-      bottom:3px;
-      font-size:14px;
-      font-weight:900;
-      color:#49e2a8;
-    }
-
-    /* Poista aiempi sel-check */
-    .pieceBtn.sel::after{
-      content:none !important;
-    }
-
-  
-
-
-    /* --- v8: paletti vielä tiiviimmäksi (poista pystysuuntainen hukkatila) --- */
-
-    /* Poista aiempi scale koska se jättää grid-solun korkeaksi */
-    .pieceBtn{
-      transform: none !important;
-      padding: 2px 2px !important;
-      min-height: 0 !important;
-      height: 60px !important;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    /* Grid tiukemmaksi */
-    #pieces{
-      gap: 4px !important;
-      grid-template-rows: repeat(2, 60px) !important;
-      align-content: center;
-    }
-
-    /* Palette kontti juuri kahdelle riville */
-    #palette{
-      height: calc(52px * 2 + 4px + 16px);
-      max-height: calc(52px * 2 + 4px + 16px);
-      padding: 6px !important;
-    }
-  
-
-    /* --- v9: paletin check-merkki oikeaan alakulmaan (asetettu pala) --- */
+    /* ---------- placedMark ---------- */
     .pieceBtn{ position: relative; }
 
     .pieceBtn .mini{
@@ -782,17 +504,127 @@
       pointer-events: auto;
     }
 
+    /* ---------- iPhone compact ---------- */
+    @media (max-width: 430px) and (orientation: portrait){
+      header#topbar{
+        padding: 6px 8px;
+      }
+      header#topbar h1{ font-size: 16px; }
+      header#topbar .sub{ display:none; }
 
-/* --- Red car flash when captured --- */
-@keyframes redFlash {
-  0%   { box-shadow: 0 0 0 0 rgba(255,90,106,0); }
-  50%  { box-shadow: 0 0 0 6px rgba(255,90,106,.7); }
-  100% { box-shadow: 0 0 0 0 rgba(255,90,106,0); }
+      #controls.card{ padding: 6px; }
+      #controls .btnbar{
+        gap: 6px;
+      }
+      #controls .btnbar button{
+        height: 34px;
+        min-width: 40px;
+        padding: 0 10px;
+        border-radius: 12px;
+        font-size: 14px;
+        line-height: 1;
+      }
+      #controls .btnbar select{
+        height: 34px;
+        padding: 0 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      /* Status */
+      #statusCard{
+        height: auto;
+        padding: 4px 10px;
+      }
+      #status{ gap: 1px; }
+      #msg{
+        font-size: 11px;
+        line-height: 1.1;
+      }
+      #hint{ display:none; }
+
+      /* Palette */
+      #palette{
+  height: auto;
+  max-height: none;
+        padding: 6px;
+        overflow: visible;
+      }
+      #pieces{
+        grid-template-columns: repeat(3, minmax(0,1fr));
+        grid-template-rows: repeat(2, 68px);
+        gap: 4px;
+      }
+      .pieceBtn{
+        height: 68px;
+        min-height: 0;
+        padding: 2px;
+        border: none;
+        background: rgba(0,0,0,.08);
+        box-shadow: none;
+        border-radius: 12px;
+      }
+      .pieceTop{ display:none; }
+      .pieceName{ display:none; }
+      .pieceMeta{ display:none; }
+
+      .pieceBtn.placed::after{
+        content: "✓";
+        position:absolute;
+        right:3px;
+        bottom:3px;
+        font-size:14px;
+        font-weight:900;
+        color:#49e2a8;
+      }
+    }
+
+#palette.card{
+  overflow: visible;
 }
 
-.flashRed{
-  animation: redFlash 0.35s ease-in-out 4;
+
+
+
+main{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: var(--gap);
+      align-content: stretch;
+      min-height: 0;
+
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+
+  overflow:visible;
 }
+
+#board{
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+#palette{
+  flex: 0 0 auto;
+}
+    /* ---------- Red car flash ---------- */
+    @keyframes redFlash {
+      0%   { box-shadow: 0 0 0 0 rgba(255,90,106,0); }
+      50%  { box-shadow: 0 0 0 6px rgba(255,90,106,.7); }
+      100% { box-shadow: 0 0 0 0 rgba(255,90,106,0); }
+    }
+    .flashRed{
+      animation: redFlash 0.35s ease-in-out 4;
+    }
+	
+
+main{ justify-items:center !important; }
+#board{ justify-self:center !important; margin:0 auto !important; }
+
 
   </style>
 </head>
@@ -819,12 +651,10 @@
 
     <!-- Row 3: board + palette -->
     <main>
-      <div id="boardWrap" class="card">
-        <div id="board" aria-label="pelilauta">
+      <div id="board" class="card" aria-label="pelilauta">
           <div class="grid" id="grid"></div>
           <div class="layer" id="layer"></div>
         </div>
-      </div>
 
       <aside id="palette" class="card">
         <div id="placedCount" style="display:none">0/6</div>
@@ -857,7 +687,7 @@
         <ul>
           <li>Klikkaa poliisia: <b>valitse</b></li>
           <li>Klikkaa valitun poliisin previewtä: <b>pyöräytä 90°</b></li>
-          <li>Klikkaa valitun poliisin otsikkoa (✅): <b>poista asetettu poliisi</b></li>
+ 
         </ul>
 
         <div style="height:10px"></div>
@@ -879,10 +709,11 @@
 <script>
 (() => {
   /* ---------------- iOS best-practice viewport ---------------- */
-  function setVH(){
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
+function setVH(){
+  const h = (window.visualViewport?.height || window.innerHeight);
+  document.documentElement.style.setProperty("--vh", `${h * 0.01}px`);
+}
+
   window.addEventListener("resize", setVH, {passive:true});
   window.addEventListener("orientationchange", setVH, {passive:true});
   setVH();
@@ -1124,25 +955,25 @@
 
     const isWide = window.matchMedia("(min-width: 900px) and (orientation: landscape)").matches;
 
-    const boardPad = 10;
+    const boardPad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--boardPad")) || 6;
 
     let boardMaxByW;
     let boardMaxByH;
 
     if(isWide){
       const palW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--palW")) || 340;
-      boardMaxByW = Math.max(240, vw - palW - pad*2 - gap - 24);
-      boardMaxByH = Math.max(240, availMainH - 24);
+      boardMaxByW = Math.max(240, vw - palW - pad*2 - gap - 16);
+      boardMaxByH = Math.max(240, availMainH - 16);
     }else{
-      const palShare = 0.42;
-      boardMaxByH = Math.max(220, (availMainH * (1 - palShare)) - 24);
-      boardMaxByW = Math.max(240, vw - pad*2 - 24);
+      const palShare = 0.40;
+      boardMaxByH = Math.max(220, (availMainH * (1 - palShare)) - 16);
+      boardMaxByW = Math.max(240, vw - pad*2 - 16);
     }
 
     const boardMax = Math.min(boardMaxByW, boardMaxByH);
 
     let cell = Math.floor((boardMax - 2*boardPad) / 6);
-    cell = Math.max(34, Math.min(76, cell));
+    cell = Math.max(34, Math.min(82, cell));
 
     const boardOuter = (cell * 6 + boardPad * 2);
 
