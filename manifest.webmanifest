@@ -3,6 +3,7 @@
   "short_name": "Roadblock",
   "start_url": "./",
   "display": "standalone",
+  "orientation": "portrait"
   "background_color": "#0b1533",
   "theme_color": "#0b1533",
   "icons": [
