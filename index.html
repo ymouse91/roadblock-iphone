@@ -1346,18 +1346,22 @@ if(Object.values(G.placed).every(v => v)){
 
   }
 
-  /* ---------------- Escape check: diagonal only + NO corner-cut ---------------- */
+  /* ---------------- Escape check: diagonal (no corner-cut) + orthogonal ---------------- */
   function carCanEscape(){
     if(!curPuzzle) return false;
 
     const occ = buildOccEscape();
     const start = {x: curPuzzle.car.x, y: curPuzzle.car.y};
 
-    const dirs = [
+    const allDirs = [
       {dx: 1, dy: 1},
       {dx: 1, dy:-1},
       {dx:-1, dy: 1},
-      {dx:-1, dy:-1}
+      {dx:-1, dy:-1},
+      {dx: 1, dy: 0},
+      {dx:-1, dy: 0},
+      {dx: 0, dy: 1},
+      {dx: 0, dy:-1}
     ];
 
     function inside(x,y){ return x>=0 && x<W && y>=0 && y<H; }
@@ -1368,7 +1372,7 @@ if(Object.values(G.placed).every(v => v)){
       return true;
     }
     function canStepOutsideFrom(x,y){
-      for(const d of dirs){
+      for(const d of allDirs){
         const nx = x + d.dx, ny = y + d.dy;
         if(!inside(nx,ny)) return true;
       }
@@ -1382,19 +1386,18 @@ if(Object.values(G.placed).every(v => v)){
       const cur = q.shift();
       if(canStepOutsideFrom(cur.x, cur.y)) return true;
 
-      for(const d of dirs){
+      for(const d of allDirs){
         const nx = cur.x + d.dx;
         const ny = cur.y + d.dy;
         if(!inside(nx,ny)) continue;
-
         if(isBlocked(nx,ny)) continue;
 
-// no corner-cut: blocked ONLY if BOTH side cells are blocked (tight corner)
-const side1x = cur.x + d.dx, side1y = cur.y;
-const side2x = cur.x,       side2y = cur.y + d.dy;
-
-if (isBlocked(side1x, side1y) && isBlocked(side2x, side2y)) continue;
-
+        // Diagonaalisille: no corner-cut
+        if(d.dx !== 0 && d.dy !== 0){
+          const side1x = cur.x + d.dx, side1y = cur.y;
+          const side2x = cur.x,       side2y = cur.y + d.dy;
+          if(isBlocked(side1x, side1y) && isBlocked(side2x, side2y)) continue;
+        }
 
         const k = nx + "," + ny;
         if(seen.has(k)) continue;
