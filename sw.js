@@ -1,5 +1,5 @@
 /* offline-minimi */
-const CACHE_NAME = "roadblockiphone-v1";
+const CACHE_NAME = "roadblockiphone-v2";
 const FILES = [
   "./",
   "./index.html",
