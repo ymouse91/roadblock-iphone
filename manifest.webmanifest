@@ -1,6 +1,6 @@
 {
   "name": "Roadblock",
-  "short_name": "Roadblock",
+  "short_name": "iRoadBlock",
   "start_url": "./",
   "display": "standalone",
   "orientation": "portrait"
